@@ -1,4 +1,7 @@
+use std::path::PathBuf;
+
 use pokedex_scraper::scrape;
+use tokio::io::AsyncWriteExt;
 
 #[tokio::main]
 async fn main() {
