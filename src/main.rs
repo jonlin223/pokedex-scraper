@@ -1,13 +1,10 @@
-use std::path::PathBuf;
-
 use pokedex_scraper::scrape;
-use tokio::io::AsyncWriteExt;
 
 #[tokio::main]
 async fn main() {
 
-    let url = "https://pokemondb.net/pokedex/game/platinum";
-    let game = "platinum";
+    // TODO Just note that you have to edit the name of the file yourself
+    let url = "https://pokemondb.net/pokedex/game/black-white";
 
     // Pick a game
     // Scrape page associated with that game - add game to dex json
@@ -22,5 +19,14 @@ async fn main() {
             // sprites (folder)
                 // (game)_(name).png
 
-    scrape(url).await;
+    match scrape(url).await {
+        Some(pokedex) => {
+            println!("{:?}", pokedex);
+            let json = serde_json::to_string(&pokedex).expect("Bad");
+            let file = std::fs::File::create("./pokedex/black-white.json").expect("File not created?");
+            serde_json::to_writer_pretty(file, &json).expect("Something went wrong with serialisation");
+        },
+        None => println!("Something went wrong I guess")
+    };
+
 }

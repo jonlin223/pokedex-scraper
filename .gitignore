@@ -1,2 +1,3 @@
 /target
-/pokedex/sprites
+/pokedex/sprites/*
+/pokedex/*.json
